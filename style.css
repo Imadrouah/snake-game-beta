@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
+body {
+    margin: 0;
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100vh;
+    padding-bottom: 20px;
+}
+.board {
+    background: black;
+    width: 100%;
+    flex: 1;
+}
+.board::before {
+    content: "score: " attr(data-score);
+    color: white;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    text-transform: capitalize;
+}
+table {
+    width: 100%;
+    height: 100%;
+    border-color: #ffffff33;
+    border-spacing: 0;
+}
+table .snake-head {
+    position: relative;
+    background-color: #8bc34a !important;
+}
+table .snake-head::before,
+table .snake-head::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    border-radius: 50%;
+}
+/* start */
+table #down::before,
+table #down::after {
+    bottom: 10px;
+}
+table #up::before,
+table #up::after {
+    top: 10px;
+}
+/*  */
+table #down::before,
+table #up::before {
+    left: 10px;
+}
+table #down::after,
+table #up::after {
+    right: 10px;
+}
+/*  */
+table #left::before,
+table #left::after {
+    left: 10px;
+}
+table #right::before,
+table #right::after {
+    right: 10px;
+}
+/*  */
+table #left::before,
+table #right::before {
+    top: 10px;
+}
+table #left::after,
+table #right::after {
+    bottom: 10px;
+}
+/* end */
+table .food {
+    position: relative;
+}
+table .food::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: red;
+}
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.buttons .box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+button {
+    cursor: pointer;
+}
+.buttons > button {
+    height: 25px;
+    width: 30px;
+}
+.buttons .box button {
+    width: 25px;
+    height: 30px;
+}
