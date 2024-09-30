@@ -21,6 +21,9 @@ body {
         gap: 20px;
         flex-direction: column;
     }
+    .dialog {
+        display: none;
+    }
     table td {
         width: 45px;
         height: 45px;
