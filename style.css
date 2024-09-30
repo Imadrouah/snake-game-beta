@@ -16,10 +16,26 @@ body {
     padding: 20px;
     background: black;
 }
-@media (max-width: 630px) {
+.options {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    gap: 20px;
+    right: 15px;
+}
+.options button {
+    width: 30px;
+    height: 30px;
+}
+@media (max-width: 692px) {
     .container {
         gap: 20px;
         flex-direction: column;
+    }
+    .options {
+        flex-direction: row;
+        right: unset;
+        top: 15px;
     }
     .container .dialog {
         display: none;
@@ -69,10 +85,6 @@ body {
 .dialog p {
     line-height: 1.5;
 }
-/* .board {
-    width: 100%;
-    flex: 1;
-} */
 .board::before {
     content: "score: " attr(data-score);
     color: white;
@@ -83,9 +95,6 @@ body {
     z-index: 99;
 }
 table {
-    /* table-layout: fixed;
-    width: 100%;
-    height: 100%; */
     border-color: #ffffff33;
     border-spacing: 0;
 }
