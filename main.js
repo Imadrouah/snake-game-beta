@@ -137,22 +137,22 @@ function snakeAutoMove() {
     board.id = direct;
 }
 function autoPlay() {
-    if (foodIndex[0] >= currentIndex[0] && direct !== "down") {
+    if (foodIndex[0] > currentIndex[0] && direct !== "down") {
         // console.log("go down");
         direct = "down";
         timerHandle();
-    } else if (foodIndex[0] <= currentIndex[0] && direct !== "up") {
+    } else if (foodIndex[0] < currentIndex[0] && direct !== "up") {
         // console.log("go up");
         direct = "up";
         timerHandle();
     }
     if (foodIndex[0] == currentIndex[0]) {
-        if (foodIndex[1] <= currentIndex[1] && direct !== "left") {
+        if (foodIndex[1] < currentIndex[1] && direct !== "left") {
             // console.log("go left");
             direct = "left";
             timerHandle();
         }
-        if (foodIndex[1] >= currentIndex[1] && direct !== "right") {
+        if (foodIndex[1] > currentIndex[1] && direct !== "right") {
             // console.log("go right");
             direct = "right";
             timerHandle();
