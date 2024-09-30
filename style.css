@@ -9,17 +9,59 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 20px;
+    position: relative;
+    gap: 40px;
     width: 100%;
     height: 100vh;
-    padding-bottom: 20px;
-}
-.board {
+    padding: 20px;
     background: black;
+}
+@media (max-width: 630px) {
+    .container {
+        gap: 20px;
+        flex-direction: column;
+    }
+    table td {
+        width: 45px;
+        height: 45px;
+    }
+}
+.dialog {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+}
+.dialog.hide {
+    display: none;
+}
+.dialog .box {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    font-size: 1.2em;
+    text-transform: capitalize;
+    position: absolute;
+    width: 80%;
+    height: 50vh;
+    background-color: #ccc;
+    color: black;
+    border-radius: 6px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.dialog p {
+    line-height: 1.5;
+}
+/* .board {
     width: 100%;
     flex: 1;
-}
+} */
 .board::before {
     content: "score: " attr(data-score);
     color: white;
@@ -27,12 +69,18 @@ body {
     right: 10px;
     top: 5px;
     text-transform: capitalize;
+    z-index: 99;
 }
 table {
+    /* table-layout: fixed;
     width: 100%;
-    height: 100%;
+    height: 100%; */
     border-color: #ffffff33;
     border-spacing: 0;
+}
+table td {
+    height: 55px;
+    width: 55px;
 }
 table .snake-head {
     position: relative;
@@ -48,39 +96,39 @@ table .snake-head::after {
     border-radius: 50%;
 }
 /* start */
-table #down::before,
-table #down::after {
+#down .snake-head::before,
+#down .snake-head::after {
     bottom: 10px;
 }
-table #up::before,
-table #up::after {
+#up .snake-head::before,
+#up .snake-head::after {
     top: 10px;
 }
 /*  */
-table #down::before,
-table #up::before {
+#down .snake-head::before,
+#up .snake-head::before {
     left: 10px;
 }
-table #down::after,
-table #up::after {
+#down .snake-head::after,
+#up .snake-head::after {
     right: 10px;
 }
 /*  */
-table #left::before,
-table #left::after {
+#left .snake-head::before,
+#left .snake-head::after {
     left: 10px;
 }
-table #right::before,
-table #right::after {
+#right .snake-head::before,
+#right .snake-head::after {
     right: 10px;
 }
 /*  */
-table #left::before,
-table #right::before {
+#left .snake-head::before,
+#right .snake-head::before {
     top: 10px;
 }
-table #left::after,
-table #right::after {
+#left .snake-head::after,
+#right .snake-head::after {
     bottom: 10px;
 }
 /* end */

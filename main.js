@@ -1,22 +1,23 @@
 let boardRows = document.querySelectorAll(".board tr");
 let currentIndex = [
     Math.floor(Math.random() * 8),
-    Math.floor(Math.random() * 10),
+    Math.floor(Math.random() * 8),
 ];
 let board = document.querySelector(".board");
 let score = 0;
-let foodIndex = [Math.floor(Math.random() * 8), Math.floor(Math.random() * 10)];
+let foodIndex = [Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)];
 let snake = [];
 let speed = 200;
 let direct = "up";
 let move = true;
+let start = true;
 
 boardRows[currentIndex[0]].children[currentIndex[1]].classList.add(
     "snake-head"
 );
 boardRows[foodIndex[0]].children[foodIndex[1]].classList.add("food");
 
-document.querySelector(".snake-head").id = direct;
+board.id = direct;
 
 let upBtn = document.querySelector(".up"),
     downBtn = document.querySelector(".down"),
@@ -39,6 +40,11 @@ rightBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("keyup", (e) => {
+    if (start) {
+        timer = setInterval(snakeAutoMove, speed);
+        document.querySelector(".dialog").classList.add("hide");
+        start = false;
+    }
     if (e.key == "ArrowUp") {
         moving("up");
     }
@@ -60,7 +66,7 @@ function eat() {
         boardRows[foodIndex[0]].children[foodIndex[1]].classList.remove("food");
         foodIndex = [
             Math.floor(Math.random() * 8),
-            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 8),
         ];
         boardRows[foodIndex[0]].children[foodIndex[1]].classList.add("food");
         switch (direct) {
@@ -103,11 +109,11 @@ function snakeAutoMove() {
             break;
         case "left":
             currentIndex[1] -= 1;
-            if (currentIndex[1] < 0) currentIndex[1] = 9;
+            if (currentIndex[1] < 0) currentIndex[1] = 7;
             break;
         case "right":
             currentIndex[1] += 1;
-            if (currentIndex[1] > 9) currentIndex[1] = 0;
+            if (currentIndex[1] > 7) currentIndex[1] = 0;
             break;
         default:
             break;
@@ -116,5 +122,5 @@ function snakeAutoMove() {
         "snake-head"
     );
     move = true;
-    document.querySelector(".snake-head").id = direct;
+    board.id = direct;
 }
