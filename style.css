@@ -21,12 +21,20 @@ body {
         gap: 20px;
         flex-direction: column;
     }
-    .dialog {
+    .container .dialog {
         display: none;
     }
     table td {
         width: 45px;
         height: 45px;
+    }
+    .container .buttons > button {
+        width: 35px;
+        height: 30px;
+    }
+    .container .buttons .box button {
+        width: 30px;
+        height: 35px;
     }
 }
 .dialog {
