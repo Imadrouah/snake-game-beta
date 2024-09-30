@@ -124,7 +124,6 @@ table .snake-head::after {
 #up .snake-head::after {
     top: 10px;
 }
-/*  */
 #down .snake-head::before,
 #up .snake-head::before {
     left: 10px;
@@ -133,7 +132,6 @@ table .snake-head::after {
 #up .snake-head::after {
     right: 10px;
 }
-/*  */
 #left .snake-head::before,
 #left .snake-head::after {
     left: 10px;
@@ -142,7 +140,6 @@ table .snake-head::after {
 #right .snake-head::after {
     right: 10px;
 }
-/*  */
 #left .snake-head::before,
 #right .snake-head::before {
     top: 10px;
