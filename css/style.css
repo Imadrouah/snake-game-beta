@@ -106,6 +106,13 @@ table .snake-head {
     position: relative;
     background-color: #8bc34a !important;
 }
+table .snake {
+    background-color: #8bc34a !important;
+    border: 1px solid yellow;
+}
+table .tail {
+    background-color: yellowgreen;
+}
 table .snake-head::before,
 table .snake-head::after {
     content: "";
