@@ -184,21 +184,18 @@ function snakeAutoMove() {
     eat();
 }
 function autoPlay() {
+    move = true;
     if (foodIndex[0] > snake[0][0] && direct !== "down") {
-        direct = "down";
-        timerHandle();
+        moving("down");
     } else if (foodIndex[0] < snake[0][0] && direct !== "up") {
-        direct = "up";
-        timerHandle();
+        moving("up");
     }
     if (foodIndex[0] == snake[0][0]) {
         if (foodIndex[1] < snake[0][1] && direct !== "left") {
-            direct = "left";
-            timerHandle();
+            moving("left");
         }
         if (foodIndex[1] > snake[0][1] && direct !== "right") {
-            direct = "right";
-            timerHandle();
+            moving("right");
         }
     }
 }
