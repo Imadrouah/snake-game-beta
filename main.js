@@ -10,7 +10,8 @@ let score = 0,
     speed = 200,
     direct = "up",
     move = true,
-    start = true;
+    start = true,
+    lost = false;
 
 boardRows[snake[0][0]].children[snake[0][1]].classList.add("snake-head");
 boardRows[foodIndex[0]].children[foodIndex[1]].classList.add("food");
@@ -29,16 +30,16 @@ let magicBtn = document.querySelector(".magic"),
 let timer;
 
 upBtn.addEventListener("click", () => {
-    moving("up");
+    if (!lost) moving("up");
 });
 downBtn.addEventListener("click", () => {
-    moving("down");
+    if (!lost) moving("down");
 });
 leftBtn.addEventListener("click", () => {
-    moving("left");
+    if (!lost) moving("left");
 });
 rightBtn.addEventListener("click", () => {
-    moving("right");
+    if (!lost) moving("right");
 });
 
 document.addEventListener("keyup", (e) => {
@@ -47,24 +48,29 @@ document.addEventListener("keyup", (e) => {
         document.querySelector(".dialog").classList.add("hide");
         start = false;
     }
-    if (e.key == "ArrowUp") {
-        moving("up");
-    }
-    if (e.key == "ArrowDown") {
-        moving("down");
-    }
-    if (e.key == "ArrowLeft") {
-        moving("left");
-    }
-    if (e.key == "ArrowRight") {
-        moving("right");
+    if (!lost) {
+        if (e.key == "ArrowUp") {
+            moving("up");
+        }
+        if (e.key == "ArrowDown") {
+            moving("down");
+        }
+        if (e.key == "ArrowLeft") {
+            moving("left");
+        }
+        if (e.key == "ArrowRight") {
+            moving("right");
+        }
     }
 });
 
+let magicTimer;
 magicBtn.addEventListener("click", () => {
-    setInterval(autoPlay, 100);
+    clearInterval(magicTimer);
+    magicTimer = setInterval(autoPlay, 100);
 });
 pauseBtn.addEventListener("click", () => {
+    console.log("called pause");
     clearInterval(timer);
 });
 resetBtn.addEventListener("click", () => {
@@ -75,12 +81,14 @@ function eat() {
     if (compareArrays(snake[0], foodIndex)) {
         score++;
         board.setAttribute("data-score", score);
+
         boardRows[foodIndex[0]].children[foodIndex[1]].classList.remove("food");
         foodIndex = getRandomFoodIndex();
         boardRows[foodIndex[0]].children[foodIndex[1]].classList.add("food");
 
         let lastPartIndex = snake[snake.length - 1];
         let newBodyPartIndex;
+
         switch (direct) {
             case "up":
                 newBodyPartIndex = [lastPartIndex[0] + 1, lastPartIndex[1]];
@@ -114,6 +122,7 @@ function eat() {
 
 function moving(direction) {
     if (
+        !lost &&
         move &&
         direct !== direction &&
         !(
@@ -135,8 +144,6 @@ function snakeAutoMove() {
             snake[snake.length - 1][1]
         ].classList.remove("tail");
     }
-    let oldSnakeIndexes = [...snake];
-
     boardRows[snake[0][0]].children[snake[0][1]].classList.remove("snake-head");
     switch (direct) {
         case "up":
@@ -155,33 +162,35 @@ function snakeAutoMove() {
             snake[0][1] += 1;
             if (snake[0][1] > 7) snake[0][1] = 0;
             break;
-        default:
-            break;
     }
-
+    eat();
+    checker();
     boardRows[snake[0][0]].children[snake[0][1]].classList.add("snake-head");
 
-    for (let index = 1; index < snake.length; index++) {
-        boardRows[oldSnakeIndexes[index][0]].children[
-            oldSnakeIndexes[index][1]
-        ].classList.remove("snake");
+    let oldSnakeIndexes = [...snake];
 
-        snake[index] = [...oldSnakeIndexes[index - 1]];
+    if (!lost) {
+        for (let index = 1; index < snake.length; index++) {
+            boardRows[oldSnakeIndexes[index][0]].children[
+                oldSnakeIndexes[index][1]
+            ].classList.remove("snake");
 
-        boardRows[snake[index][0]].children[snake[index][1]].classList.add(
-            "snake"
-        );
+            snake[index] = [...oldSnakeIndexes[index - 1]];
+
+            boardRows[snake[index][0]].children[snake[index][1]].classList.add(
+                "snake"
+            );
+        }
+
+        if (snake.length > 1) {
+            boardRows[snake[snake.length - 1][0]].children[
+                snake[snake.length - 1][1]
+            ].classList.add("tail");
+        }
+
+        move = true;
+        board.id = direct;
     }
-
-    if (snake.length > 1) {
-        boardRows[snake[snake.length - 1][0]].children[
-            snake[snake.length - 1][1]
-        ].classList.add("tail");
-    }
-
-    move = true;
-    board.id = direct;
-    eat();
 }
 function autoPlay() {
     move = true;
@@ -199,7 +208,6 @@ function autoPlay() {
         }
     }
 }
-
 function timerHandle() {
     clearInterval(timer);
     snakeAutoMove();
@@ -207,14 +215,25 @@ function timerHandle() {
 }
 
 function getRandomFoodIndex() {
-    let index = [Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)];
-    for (let part of snake) {
-        if (compareArrays(index, part)) {
-            return getRandomFoodIndex();
-        }
-    }
+    let index;
+    do {
+        index = [Math.floor(Math.random() * 8), Math.floor(Math.random() * 8)];
+    } while (snake.some((part) => compareArrays(index, part)));
     return index;
 }
 function compareArrays(arr1, arr2) {
     return arr1[0] === arr2[0] && arr1[1] === arr2[1];
+}
+function checker() {
+    for (let index = 1; index < snake.length; index++) {
+        if (compareArrays(snake[0], snake[index])) {
+            clearInterval(timer);
+            clearInterval(magicTimer);
+            lost = true;
+            document.querySelector(".holder").classList.add("show");
+            document.querySelector(".lost .score").textContent =
+                "score: " + score;
+            return;
+        }
+    }
 }

@@ -22,6 +22,7 @@ body {
     position: absolute;
     gap: 20px;
     right: 15px;
+    z-index: 9;
 }
 .options button {
     width: 30px;
@@ -53,9 +54,54 @@ body {
         height: 35px;
     }
 }
-.dialog {
-    display: block;
+
+.holder {
     position: absolute;
+    display: none;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+}
+.holder.show {
+    display: block;
+}
+.lost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 25px;
+    font-size: 1.2em;
+    text-transform: capitalize;
+    position: absolute;
+    width: 80%;
+    max-width: 600px;
+    height: 50vh;
+    background-color: white;
+    box-shadow: 0 0 1px 1px #eee;
+    color: black;
+    border-radius: 6px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.lost h3 {
+    color: crimson;
+    font-size: 1.5em;
+    font-family: fantasy;
+    letter-spacing: 1px;
+}
+.lost .box {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+.dialog {
+    position: absolute;
+    display: block;
     left: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
@@ -111,7 +157,7 @@ table .snake {
     border: 1px solid yellow;
 }
 table .tail {
-    background-color: yellowgreen;
+    background-color: yellow !important;
 }
 table .snake-head::before,
 table .snake-head::after {
