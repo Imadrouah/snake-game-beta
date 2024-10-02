@@ -70,13 +70,85 @@ magicBtn.addEventListener("click", () => {
     magicTimer = setInterval(autoPlay, 100);
 });
 pauseBtn.addEventListener("click", () => {
-    console.log("called pause");
     clearInterval(timer);
 });
 resetBtn.addEventListener("click", () => {
     window.location.reload();
 });
 
+function moving(direction) {
+    if (!lost && move && direct !== direction) {
+        if (
+            snake.length > 1 &&
+            ((direct === "up" && direction === "down") ||
+                (direct === "down" && direction === "up") ||
+                (direct === "left" && direction === "right") ||
+                (direct === "right" && direction === "left"))
+        ) {
+            return;
+        }
+        direct = direction;
+        move = false;
+        timerHandle();
+    }
+}
+function snakeAutoMove() {
+    if (snake.length > 1) {
+        boardRows[snake[snake.length - 1][0]].children[
+            snake[snake.length - 1][1]
+        ].classList.remove("tail");
+    }
+
+    let oldHead = snake[0];
+    boardRows[snake[0][0]].children[snake[0][1]].classList.remove("snake-head");
+
+    switch (direct) {
+        case "up":
+            snake[0][0] -= 1;
+            if (snake[0][0] < 0) snake[0][0] = 7;
+            break;
+        case "down":
+            snake[0][0] += 1;
+            if (snake[0][0] > 7) snake[0][0] = 0;
+            break;
+        case "left":
+            snake[0][1] -= 1;
+            if (snake[0][1] < 0) snake[0][1] = 7;
+            break;
+        case "right":
+            snake[0][1] += 1;
+            if (snake[0][1] > 7) snake[0][1] = 0;
+            break;
+    }
+    boardRows[snake[0][0]].children[snake[0][1]].classList.add("snake-head");
+
+    eat();
+    checker();
+
+    let oldSnakeIndexes = [...snake];
+    oldSnakeIndexes[0] = oldHead;
+
+    if (!lost) {
+        for (let i = 1; i < snake.length; i++) {
+            boardRows[oldSnakeIndexes[i][0]].children[
+                oldSnakeIndexes[i][1]
+            ].classList.remove("snake");
+
+            snake[i] = [...oldSnakeIndexes[i - 1]];
+
+            boardRows[snake[i][0]].children[snake[i][1]].classList.add("snake");
+        }
+
+        if (snake.length > 1) {
+            boardRows[snake[snake.length - 1][0]].children[
+                snake[snake.length - 1][1]
+            ].classList.add("tail");
+        }
+
+        move = true;
+        board.id = direct;
+    }
+}
 function eat() {
     if (compareArrays(snake[0], foodIndex)) {
         score++;
@@ -117,79 +189,6 @@ function eat() {
             ].classList.add("snake");
             snake.push(newBodyPartIndex);
         }
-    }
-}
-
-function moving(direction) {
-    if (
-        !lost &&
-        move &&
-        direct !== direction &&
-        !(
-            snake.length > 1 &&
-            ((direct === "up" && direction === "down") ||
-                (direct === "down" && direction === "up") ||
-                (direct === "left" && direction === "right") ||
-                (direct === "right" && direction === "left"))
-        )
-    ) {
-        direct = direction;
-        move = false;
-        timerHandle();
-    }
-}
-function snakeAutoMove() {
-    if (snake.length > 1) {
-        boardRows[snake[snake.length - 1][0]].children[
-            snake[snake.length - 1][1]
-        ].classList.remove("tail");
-    }
-    boardRows[snake[0][0]].children[snake[0][1]].classList.remove("snake-head");
-    switch (direct) {
-        case "up":
-            snake[0][0] -= 1;
-            if (snake[0][0] < 0) snake[0][0] = 7;
-            break;
-        case "down":
-            snake[0][0] += 1;
-            if (snake[0][0] > 7) snake[0][0] = 0;
-            break;
-        case "left":
-            snake[0][1] -= 1;
-            if (snake[0][1] < 0) snake[0][1] = 7;
-            break;
-        case "right":
-            snake[0][1] += 1;
-            if (snake[0][1] > 7) snake[0][1] = 0;
-            break;
-    }
-    eat();
-    checker();
-    boardRows[snake[0][0]].children[snake[0][1]].classList.add("snake-head");
-
-    let oldSnakeIndexes = [...snake];
-
-    if (!lost) {
-        for (let index = 1; index < snake.length; index++) {
-            boardRows[oldSnakeIndexes[index][0]].children[
-                oldSnakeIndexes[index][1]
-            ].classList.remove("snake");
-
-            snake[index] = [...oldSnakeIndexes[index - 1]];
-
-            boardRows[snake[index][0]].children[snake[index][1]].classList.add(
-                "snake"
-            );
-        }
-
-        if (snake.length > 1) {
-            boardRows[snake[snake.length - 1][0]].children[
-                snake[snake.length - 1][1]
-            ].classList.add("tail");
-        }
-
-        move = true;
-        board.id = direct;
     }
 }
 function autoPlay() {
