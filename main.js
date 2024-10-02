@@ -7,7 +7,7 @@ let currentIndex = [
 let snake = [currentIndex];
 let foodIndex = getRandomFoodIndex();
 let score = 0,
-    speed = 200,
+    speed = 250,
     direct = "up",
     move = true,
     start = true,
@@ -67,7 +67,7 @@ document.addEventListener("keyup", (e) => {
 let magicTimer;
 magicBtn.addEventListener("click", () => {
     clearInterval(magicTimer);
-    magicTimer = setInterval(autoPlay, 100);
+    magicTimer = setInterval(autoPlay, speed);
 });
 pauseBtn.addEventListener("click", () => {
     clearInterval(timer);

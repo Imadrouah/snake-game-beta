@@ -152,12 +152,32 @@ table .snake-head {
     position: relative;
     background-color: #8bc34a !important;
 }
+table:has(.tail) .snake-head {
+    background-color: yellow !important;
+    border: 1px solid #8bc34a;
+}
 table .snake {
     background-color: #8bc34a !important;
     border: 1px solid yellow;
 }
+table:has(.tail) .snake {
+    background-color: yellow !important;
+    border: 1px solid #8bc34a;
+}
 table .tail {
     background-color: yellow !important;
+}
+#up .snake-head {
+    border-radius: 50% 50% 0 0;
+}
+#down .snake-head {
+    border-radius: 0 0 50% 50%;
+}
+#left .snake-head {
+    border-radius: 50% 0 0 50%;
+}
+#right .snake-head {
+    border-radius: 0 50% 50% 0;
 }
 table .snake-head::before,
 table .snake-head::after {
